@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    .container-fluid
+      .panel.panel-default
+        .panel-heading Archive Extractor
+        .panel-body
+            form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
+              input#archiveFolder(type='file', name='decompress')
+            span#status
+           
+
+
