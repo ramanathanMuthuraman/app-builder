@@ -19,13 +19,35 @@ router.post('/', function(req, res) {
         }, function(e, api) {
             if (e) throw e;
               // time to make requests, on successful login
-            phonegapAPI(api)
+            getApp(api)
               
         });
 
     };
 
-    function phonegapAPI(api) {
+    function getApp(api){
+        api.get('/apps', function(e, data) {
+            if (e) throw e;
+            console.log('data:', data);
+            if(data.apps.length){
+            deleteApp(api,data.apps[0].id)
+        }
+      else{
+                postApp(api)
+           }
+        });
+    }
+
+
+    function deleteApp(api,id){
+        api.del('/apps/'+id, function(e, data) {
+    console.log('error:', e);
+    console.log('data:', data);
+     postApp(api)
+});
+    }
+
+    function postApp(api) {
 
         var options = {
             form: {
@@ -40,19 +62,39 @@ router.post('/', function(req, res) {
 
         api.post('/apps', options, function(e, data) {
             if (e) throw e;
+            console.log('data:', data);
             //once uploaded send the response back to UI
-            complete()
+            buildApp(api,data.id)
 
         });
     };
 
-    function complete() {
-        res.send({
-            msg: "success"
+    function buildApp(api,id){
+
+        var options = {
+        form: {
+        data: {
+            platforms: [ 'android', 'winphone' ]
+        }
+    }
+};
+
+        api.post('/apps/'+id+'/build', options, function(e, data) {
+            console.log('error:', e);
+            console.log('data:', data);
+            downloadApp(api,data.id);
         });
+
     };
 
-    
+    function downloadApp(api,id) {
+    res.pipe(api.get('/apps/'+id+'/android').pipe(fs.createWriteStream('app.apk')));
+
+  
+       
+   
+
+    };
 
     //rename the file 
     fs.renameSync(__outputPath + aliasFileName, __outputPath + fileName);
