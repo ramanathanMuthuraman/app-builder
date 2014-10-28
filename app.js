@@ -1,21 +1,39 @@
 var express = require('express');
 var path = require('path');
+var session = require('express-session');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
+var uid = require('uid');
+var fs      = require('fs');
 var routes = require('./routes/index');
 var extract = require('./routes/extract');
 
 var app = express();
-global.__base = __dirname + '/';
+global.__path = __dirname + "/public/result/";
+//create result folder if already not created
+if(!fs.existsSync(__path)) {
+fs.mkdirSync(__path);
+}
+
+var sessionKey = uid(10);
+app.use(cookieParser(sessionKey));
+app.use(session({
+secret : sessionKey,
+resave:true,
+saveUninitialized :true
+}));
+global.__outputPath = __path+sessionKey+"/";
+
+ fs.mkdirSync(global.__outputPath);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(multer({
-    dest: __dirname + "/public/result"
+    dest: global.__outputPath
 }))
 // app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(logger('dev'));
