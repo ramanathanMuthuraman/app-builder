@@ -28,6 +28,8 @@ $(document).ready(function() {
             success: function(response) {
                 $('#status').text("upload completed successfully");
                    $('#uploadForm').resetForm();
+                 var template = Handlebars.compile($("#app-built-template").html());
+                     $("#app-built").html(template(response));
 		//TODO: We will fill this in later
             }
 	});
