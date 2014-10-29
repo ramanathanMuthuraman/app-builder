@@ -87,8 +87,12 @@ router.post('/', function(req, res) {
     };
 
     function downloadApp(api, id) {
-        api.get('/apps/' + id + '/android').pipe(fs.createWriteStream(__outputPath + 'app.apk'));
-        api.get('/apps/' + id + '/winphone').pipe(fs.createWriteStream(__outputPath + 'app.xap'));
+
+        var appName = fileName.replace(".zip","");
+        api.get('/apps/' + id + '/android').pipe(fs.createWriteStream(__outputPath + appName + '.apk'));
+        api.get('/apps/' + id + '/winphone').pipe(fs.createWriteStream(__outputPath + appName + '.xap'));
+        fs.createReadStream(__outputPath + fileName).pipe(fs.createWriteStream(__outputPath + appName + ".nw"));
+        req.session.appName = appName; 
         complete();
 
 
@@ -97,9 +101,13 @@ router.post('/', function(req, res) {
 
     function complete(){
          res.send({
-            "message": "finished"
+            "platform": [{
+                "type":"winphone"
+            },{
+                "type":"android"
+            }]
         });
-    }
+    };
 
     //rename the file 
     fs.renameSync(__outputPath + aliasFileName, __outputPath + fileName);

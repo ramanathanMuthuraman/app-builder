@@ -10,6 +10,7 @@ var uid = require('uid');
 var fs      = require('fs');
 var routes = require('./routes/index');
 var extract = require('./routes/extract');
+var download = require('./routes/download');
 
 var app = express();
 global.__path = __dirname + "/public/result/";
@@ -46,7 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/extract', extract);
-
+app.use('/download', download);
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

@@ -1,5 +1,7 @@
 $(document).ready(function() {
- 
+    
+    $("body").on("click",".type",downloadApp);
+
     status('Choose a file :)');
  
     // Check to see when a user has selected a file                                                                                                                
@@ -41,5 +43,12 @@ $(document).ready(function() {
  
     function status(message) {
 	$('#status').text(message);
+    }
+
+    function downloadApp(){
+        var type = $(this).data("type");
+        window.open("/download?type="+type)
+       
+
     }
 });
