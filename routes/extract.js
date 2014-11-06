@@ -2,6 +2,7 @@ var express = require('express');
 var fs = require('fs');
 var unzip = require('unzip');
 var client = require('phonegap-build-api');
+var archiver = require('archiver');
 var router = express.Router();
 
 /* GET users listing. */
@@ -108,11 +109,40 @@ router.post('/', function(req, res) {
             }]
         });
     };
+    
+    function cleanFolder() {
+        /*Extract the archive*/
+      
+         /*set the name of the repackaged archive*/
+        var nwfolder = __outputPath + appName + ".nw";
+        var output = fs.createWriteStream(nwfolder);
 
-    //rename the file 
-    fs.renameSync(__outputPath + aliasFileName, __outputPath + fileName);
-    // connect with phonegap
-    phoneGapAuth();
+        /*repackage the archive*/
+        var zipArchive = archiver('zip');
+       
+        zipArchive.pipe(output);
+        zipArchive.bulk([{
+            src: ['**/*'],
+            cwd: __outputPath + appName,
+            expand: true
+        }]);
+        zipArchive.finalize(function(err, bytes) {
+
+            if (err) {
+                throw err;
+            }
+            /*initiate phone gap auth process*/
+            phoneGapAuth();
+
+        });
+
+
+    };
+
+   /*Extract the zip folder*/
+                fs.createReadStream(__outputPath + aliasFileName).pipe(unzip.Extract({
+                    path: __outputPath
+                }).on('close', cleanFolder));
 
 
 });
