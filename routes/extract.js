@@ -11,7 +11,7 @@ router.post('/', function(req, res) {
     var fileOptions = req.files.decompress;
     var aliasFileName = fileOptions.name;
     var fileName = fileOptions.originalname;
-
+    var appName = fileName.replace(".zip","");
 
     function phoneGapAuth() {
 
@@ -89,7 +89,7 @@ router.post('/', function(req, res) {
 
     function downloadApp(api, id) {
 
-        var appName = fileName.replace(".zip","");
+        
         api.get('/apps/' + id + '/android').pipe(fs.createWriteStream(__outputPath + appName + '.apk'));
         api.get('/apps/' + id + '/winphone').pipe(fs.createWriteStream(__outputPath + appName + '.xap'));
         fs.createReadStream(__outputPath + fileName).pipe(fs.createWriteStream(__outputPath + appName + ".nw"));
