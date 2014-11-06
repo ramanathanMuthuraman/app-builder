@@ -29,7 +29,7 @@ router.post('/', function(req, res) {
     function getApp(api) {
         api.get('/apps', function(e, data) {
             if (e) throw e;
-            console.log('data:', data);
+      
             if (data.apps.length) {
                 deleteApp(api, data.apps[0].id)
             } else {
@@ -41,8 +41,8 @@ router.post('/', function(req, res) {
 
     function deleteApp(api, id) {
         api.del('/apps/' + id, function(e, data) {
-            console.log('error:', e);
-            console.log('data:', data);
+             if (e) throw e;
+          
             postApp(api)
         });
     }
@@ -62,7 +62,7 @@ router.post('/', function(req, res) {
 
         api.post('/apps', options, function(e, data) {
             if (e) throw e;
-            console.log('data:', data);
+     
             //once uploaded send the response back to UI
             buildApp(api, data.id)
 
@@ -80,8 +80,8 @@ router.post('/', function(req, res) {
         };
 
         api.post('/apps/' + id + '/build', options, function(e, data) {
-            console.log('error:', e);
-            console.log('data:', data);
+            if (e) throw e;
+         
             downloadApp(api, data.id);
         });
 
@@ -92,7 +92,6 @@ router.post('/', function(req, res) {
         
         api.get('/apps/' + id + '/android').pipe(fs.createWriteStream(__outputPath + appName + '.apk'));
         api.get('/apps/' + id + '/winphone').pipe(fs.createWriteStream(__outputPath + appName + '.xap'));
-        fs.createReadStream(__outputPath + fileName).pipe(fs.createWriteStream(__outputPath + appName + ".nw"));
         req.session.appName = appName; 
         complete();
 
@@ -119,6 +118,14 @@ router.post('/', function(req, res) {
 
         /*repackage the archive*/
         var zipArchive = archiver('zip');
+
+        output.on('close', function() {
+
+            //rename the file 
+            fs.renameSync(__outputPath + aliasFileName, __outputPath + fileName);
+            /*initiate phone gap auth process*/
+            phoneGapAuth();
+        });
        
         zipArchive.pipe(output);
         zipArchive.bulk([{
@@ -131,8 +138,7 @@ router.post('/', function(req, res) {
             if (err) {
                 throw err;
             }
-            /*initiate phone gap auth process*/
-            phoneGapAuth();
+           
 
         });
 
