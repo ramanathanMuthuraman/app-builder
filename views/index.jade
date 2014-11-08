@@ -7,20 +7,5 @@ block content
           form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
             input#archiveFolder(type='file', name='decompress')
           span#status
-          section#page-content(role='main')
-            header#page-header
-              .icon
-                img.app-icon(alt='Icon', src='https://s3.amazonaws.com/build.phonegap.com/ead68ed8-666c-11e4-b0af-2aba9e102498/icon.png')
-              .details
-                h1
-                  | Socialnetz
-                  small 1.0.0
-                p.desc Socialnetz demo implementing thirdparty SDK's into phonegap
-            .packages.clearfix
-              .pkg.ui-block.android
-                a.btn.icon.action.download.primary(href='/apps/1169325/download/android/?qr_key=s1f5f3mxX2DfAuf1kPah')
-                  span.filetype apk
-              .pkg.ui-block.winphone
-                a.btn.icon.action.download.primary(href='/apps/1169325/download/winphone/?qr_key=s1f5f3mxX2DfAuf1kPah')
-                  span.filetype xap
+          #app-built  
 

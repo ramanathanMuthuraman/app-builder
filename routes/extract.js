@@ -119,11 +119,14 @@ router.post('/', function(req, res) {
             });
 
             app_response[0].platform = [{
-                "type":"winphone"
+                "type":"winphone",
+                "extenstion" : ".xap"
             },{
-                "type":"android"
+                "type":"android",
+                "extenstion" : ".apk"
             },{
-                "type":"desktop"
+                "type":"node-webkit",
+                "extenstion" : ".nw"
             }]
             res.send(app_response);
         });

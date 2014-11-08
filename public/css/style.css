@@ -6,3 +6,32 @@ body {
 a {
   color: #00B7FF;
 }
+
+.filetype{ 
+	background: url("../img/download.png") #0c9db7 no-repeat 10px 10px;
+	padding: 10px;
+}
+.platform{
+	
+	margin: 10px 0;
+
+}
+.pkg{
+	padding: 10px 50px;
+
+}
+.platform[data-type="android"] .pkg{
+	background: url("../img/android.png") #ccc no-repeat 10px 10px;
+
+}
+.platform[data-type="node-webkit"] .pkg{
+	background: url("../img/node-webkit.png") #ccc no-repeat 10px 10px;
+
+}
+.platform[data-type="winphone"] .pkg{
+	background: url("../img/winphone.png") #ccc no-repeat 10px 10px;
+
+}
+.title{
+	font-size: 30px;
+}

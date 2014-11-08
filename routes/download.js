@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
 	var appName = req.session.appName;
 	platform['android'] = ".apk";
 	platform['winphone'] = ".xap";
-	platform['desktop'] = ".nw";
+	platform['node-webkit'] = ".nw";
 	
   	
   	res.download(__outputPath + appName + platform[type]);
