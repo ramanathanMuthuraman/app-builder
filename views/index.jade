@@ -1,11 +1,12 @@
 extends layout
 block content
-    .container-fluid
-    .panel.panel-default
-        .panel-heading Archive Extractor
-        .panel-body
-          form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
-            input#archiveFolder(type='file', name='decompress')
-          span#status
-          #app-built  
+    nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+      div.container
+        div.navbar-header
+          a.navbar-brand(href='javacript:void(0)') App-Builder
+    .container-fluid.appln-content
+        form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
+          input#archiveFolder(type='file', name='decompress')
+        span#status
+        #app-built  
 
