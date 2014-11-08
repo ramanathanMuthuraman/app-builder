@@ -29,21 +29,25 @@ router.post('/', function(req, res) {
     function getApp(api) {
         api.get('/apps', function(e, data) {
             if (e) throw e;
-            /*find the private app and delete it, if present*/
+            findPrivateApp(api,data)
+            
+        });
+    }
+    function findPrivateApp(api,data){
+
+        /*find the private app and delete it, if present*/
             var privateApp = data.apps.filter(function( app ) {
                  if(app.private == true){
                     return app;
                  }
             });
-            console.log(privateApp)
             if (privateApp.length) {
                 deleteApp(api, privateApp[0].id)
             } else {
                 postApp(api)
             }
-        });
-    }
 
+    }
 
     function deleteApp(api, id) {
         api.del('/apps/' + id, function(e, data) {
@@ -99,19 +103,29 @@ router.post('/', function(req, res) {
         api.get('/apps/' + id + '/android').pipe(fs.createWriteStream(__outputPath + appName + '.apk'));
         api.get('/apps/' + id + '/winphone').pipe(fs.createWriteStream(__outputPath + appName + '.xap'));
         req.session.appName = appName; 
-        complete();
+        complete(api);
 
 
 
     };
 
-    function complete(){
-         res.send({
-            "platform": [{
+    function complete(api){
+         api.get('/apps', function(e, data) {
+            if (e) throw e;
+            var app_response = data.apps.filter(function( app ) {
+                 if(app.private == true){
+                    return app;
+                 }
+            });
+
+            app_response[0].platform = [{
                 "type":"winphone"
             },{
                 "type":"android"
+            },{
+                "type":"desktop"
             }]
+            res.send(app_response);
         });
     };
     
