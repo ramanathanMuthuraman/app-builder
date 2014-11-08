@@ -6,7 +6,7 @@ block content
           a.navbar-brand(href='javacript:void(0)') App-Builder
     .container-fluid.appln-content
         form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
-          input#archiveFolder(type='file', name='decompress')
-        span#status
+          input.center-content#archiveFolder(type='file', name='decompress')
+        #preloader.hide.center-content
         #app-built  
 

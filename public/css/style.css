@@ -38,6 +38,17 @@ a {
 .appln-content{
 	margin-top: 50px;
 }
+
 #app-built{
 	margin-top: 15px;
+}
+
+#preloader{
+    background: url("../img/preloader.gif") no-repeat;
+    width: 300px;
+    height: 200px;
+}
+
+.center-content{
+    margin: 0 auto;
 }

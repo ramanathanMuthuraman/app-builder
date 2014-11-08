@@ -10,7 +10,12 @@ $(document).ready(function() {
     }
 
     function appError(err) {
+        hidePreloader();
         console.log(err.status);
+    }
+
+    function hidePreloader(){
+         $("#preloader").addClass("hide");
     }
     $("#archiveFolder").click(function() {
 
@@ -25,14 +30,14 @@ $(document).ready(function() {
 
 
     $('#uploadForm').submit(function() {
-
+        $("#preloader").removeClass("hide");
 
         $(this).ajaxSubmit({
 
             error: appError,
 
             success: function(response) {
-
+                hidePreloader();
                 $('#uploadForm').resetForm();
                 listApps(response);
 
