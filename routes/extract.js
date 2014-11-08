@@ -29,9 +29,15 @@ router.post('/', function(req, res) {
     function getApp(api) {
         api.get('/apps', function(e, data) {
             if (e) throw e;
-      
-            if (data.apps.length) {
-                deleteApp(api, data.apps[0].id)
+            /*find the private app and delete it, if present*/
+            var privateApp = data.apps.filter(function( app ) {
+                 if(app.private == true){
+                    return app;
+                 }
+            });
+            console.log(privateApp)
+            if (privateApp.length) {
+                deleteApp(api, privateApp[0].id)
             } else {
                 postApp(api)
             }
