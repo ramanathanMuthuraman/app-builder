@@ -92,22 +92,12 @@ router.post('/', function(req, res) {
         api.post('/apps/' + id + '/build', options, function(e, data) {
             if (e) throw e;
          
-            downloadApp(api, data.id);
+            complete(api);
         });
 
     };
 
-    function downloadApp(api, id) {
-
-        
-        api.get('/apps/' + id + '/android').pipe(fs.createWriteStream(__outputPath + appName + '.apk'));
-        api.get('/apps/' + id + '/winphone').pipe(fs.createWriteStream(__outputPath + appName + '.xap'));
-        req.session.appName = appName; 
-        complete(api);
-
-
-
-    };
+   
 
     function complete(api){
          api.get('/apps', function(e, data) {
@@ -117,7 +107,8 @@ router.post('/', function(req, res) {
                     return app;
                  }
             });
-
+            req.session.appName = appName; 
+            req.session.appid = app_response[0].id; 
             app_response[0].platform = [{
                 "type":"winphone",
                 "extenstion" : ".xap"
