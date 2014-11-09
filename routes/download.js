@@ -15,7 +15,10 @@ router.get('/', function(req, res) {
 	platform['node-webkit'] = ".nw";
 	
   	
-  	res.download(__outputPath + appName + platform[type]);
+  	if(type === "android" || type === "winphone")
+  	res.redirect("https://build.phonegap.com/api/v1/apps/"+req.session.appid+"/"+type);
+  	else
+	res.download(__outputPath + appName + platform[type]);
  
 
 });
