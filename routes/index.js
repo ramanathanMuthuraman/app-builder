@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Archive Extractor' });
+  res.render('index', { title: 'Write once run anywhere' });
 });
 
 module.exports = router;
