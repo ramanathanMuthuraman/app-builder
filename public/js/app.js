@@ -31,7 +31,7 @@ $(document).ready(function() {
 
     $('#uploadForm').submit(function() {
         $("#preloader").removeClass("hide");
-
+        $("#app-built").empty();
         $(this).ajaxSubmit({
 
             error: appError,
