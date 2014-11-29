@@ -3,8 +3,9 @@ block content
     nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
       div.container
         div.navbar-header
-          a.navbar-brand(href='javacript:void(0)') App-Builder
+          a.navbar-brand(href='javacript:void(0)') Write Once Run Anywhere
     .container-fluid.appln-content
+    	.h4.text-center Uplaod the archived web app folder
         form#uploadForm(enctype='multipart/form-data', action='/extract', method='post')
           input.center-content#archiveFolder(type='file', name='decompress')
         #preloader.hide.center-content
