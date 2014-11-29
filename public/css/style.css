@@ -10,6 +10,7 @@ a {
 .filetype{ 
 	background: url("../img/download.png") #0c9db7 no-repeat 10px 10px;
 	padding: 10px;
+	cursor: pointer;
 }
 .platform{
 	
